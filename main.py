@@ -1,5 +1,5 @@
 from groq import Groq
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, WebSocket
 from typing import Annotated
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -15,6 +15,13 @@ chat_log = []
 async def chat_page(request: Request):
     return templates.TemplateResponse("home.html", {"request": request, "chat_responses": chat_responses})
 
+@app.get("/ws")
+async def chat(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        user_input = await websocket.receive_text()
+        await websocket.send_text(user_input)
+#ws
 @app.post("/", response_class=HTMLResponse)
 async def chat_home(request: Request, user_input: Annotated[str, Form()]):
 
