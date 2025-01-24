@@ -21,7 +21,7 @@ async def chat_home(request: Request, user_input: Annotated[str, Form()]):
     chat_log.append({'role': 'user', 'content': user_input})
     chat_responses.append(user_input)
 
-    client = Groq(api_key="")
+    client = Groq(api_key="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")
     messages = [
         {
             "role": "system",

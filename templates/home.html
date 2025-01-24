@@ -16,14 +16,36 @@
       <div class="card-header">
         Chat History:
       </div>
-      <div class="card-body">
-        {% for response in chat_responses %}
+      <div class="card-body", id = "chatHistory">
+        <!-- {% for response in chat_responses %}
         <div>
           - {{response}}
         </div>
-        {% endfor %}
+        {% endfor %} -->
       </div>
     </div>
   </div>
 
 </div>
+
+<script>
+
+  var ws = new WebSocket("ws://localhost:8000/ws");
+  var sendButton = document.getElementById("sendButton");
+  var chatHistory = document.getElementById("chatHistory");
+  var userInput = document.getElementById("userInput");
+
+  ws.onmessage = function(event){
+    var message = event.data;
+    var messageDiv = document.createElement("div");
+    messageDiv.textContent = "- " + message;
+    chatHistory.appendChild(messageDiv);
+  
+  };
+
+  sendButton.onclick = function(){
+    var message = user_input.value;
+    ws.send(userInput.value);
+    userInput.value = "";
+  };
+</script>
